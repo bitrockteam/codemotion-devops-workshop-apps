@@ -1,16 +1,34 @@
 import express, { Express } from 'express';
+import expressWinston from 'express-winston';
+import winston from "winston";
+import logger from "./logger";
+
+const loggerHandler = expressWinston.logger({
+    transports: [
+        new winston.transports.Console()
+    ],
+    format: winston.format.json(),
+    meta: true,
+    msg: "HTTP {{req.method}} {{req.url}}",
+    expressFormat: true,
+    colorize: false,
+    ignoreRoute: function (req, res) { return false; }
+})
 
 const PORT: number = parseInt(process.env.PORT || '8080');
+const HOSTNAME: string = process.env.HOSTNAME || "0.0.0.0"
 const app: Express = express();
+app.use(loggerHandler);
 
-function getRandomNumber(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min) + min);
-}
-
-app.get('/rolldice', (req, res) => {
-    res.send(getRandomNumber(1, 6).toString());
+app.get('/health', (req, res) => {
+    res.send("Feeling good")
 });
 
-app.listen(PORT, "0.0.0.0",() => {
-    console.log(`Listening for requests on http://localhost:${PORT}`);
+app.get('/check-storage', (req, res) => {
+    logger.info("Checking storage for order")
+    res.send()
+});
+
+app.listen(PORT, HOSTNAME,() => {
+    console.log(`Listening for requests on http://${HOSTNAME}:${PORT}`);
 });

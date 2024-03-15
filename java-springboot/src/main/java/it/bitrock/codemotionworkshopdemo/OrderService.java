@@ -17,7 +17,7 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
     private RestClient defaultClient = RestClient.create();
-    private String orderValidatorService = "http://sample-flask:8080/checkStorage";
+    private String orderValidatorService = "http://sample-express:8080/check-storage";
 
     public List<Order> findAll() {
         return orderRepository.findAll();
