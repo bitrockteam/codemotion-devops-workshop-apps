@@ -10,13 +10,13 @@ dockerJava: packageJava setupDockerBuildx
 		--builder codemotion-workshop \
 		--push \
 		--platform linux/amd64,linux/arm64 \
-		-t bitripa/springboot-sample-app:$(version) .
+		-t bitripa/springboot-sample-app:$(version) ./java-springboot
 
 packagePython:
 	python3 -m venv python-flask/venv
 	. python-flask/venv/bin/activate; pip install -r python-flask/requirements.txt
 
-dockerPython: setupDockerBuildx
+dockerPython: packagePython setupDockerBuildx
 	docker buildx build \
 		--builder codemotion-workshop \
 		--push \
