@@ -154,3 +154,6 @@ target
 
 # Python venv/
 venv/
+
+# Nodejs
+node_modules/

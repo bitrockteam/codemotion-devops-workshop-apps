@@ -22,3 +22,13 @@ dockerPython: packagePython setupDockerBuildx
 		--push \
 		--platform linux/amd64,linux/arm64 \
 		-t bitripa/flask-sample-app:$(version) ./python-flask
+
+packageNode:
+	npm install --prefix ./node-express
+
+dockerNode: packageNode setupDockerBuildx
+	docker buildx build \
+		--builder codemotion-workshop \
+		--push \
+		--platform linux/amd64,linux/arm64 \
+		-t bitripa/express-sample-app:$(version) ./node-express
