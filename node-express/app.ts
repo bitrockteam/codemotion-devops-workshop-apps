@@ -26,7 +26,14 @@ app.get('/health', (req, res) => {
 
 app.get('/check-storage', (req, res) => {
     logger.info("Checking storage for order")
-    res.send()
+    const result = Math.random()
+    if (result > 0.9) {
+        return res.status(500).send("Unexpected error")
+    } else if (result > 0.75) {
+        return res.status(400).send("Missing supplies")
+    } else {
+        return res.send("OK")
+    }
 });
 
 app.listen(PORT, HOSTNAME,() => {
